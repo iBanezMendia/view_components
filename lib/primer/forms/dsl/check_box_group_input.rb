@@ -42,6 +42,12 @@ module Primer
           @check_boxes << CheckBoxInput.new(**args, &block)
         end
 
+        def validation_arguments
+          args = super
+          args[:class] += " mt-2"
+          args
+        end
+
         private
 
         def scheme

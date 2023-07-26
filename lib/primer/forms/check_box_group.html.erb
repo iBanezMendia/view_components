@@ -11,6 +11,10 @@
       <% end %>
     <% end %>
   </fieldset>
+  <%= content_tag(:div, **@input.validation_arguments) do %>
+    <span class="FormControl-inlineValidation--visual"><%= render(Primer::Beta::Octicon.new(icon: :"alert-fill", size: :xsmall, aria: { hidden: true })) %></span>
+    <%= content_tag(:span, @input.invalid? ? @input.validation_messages.first : "", **@input.validation_message_arguments) %>
+  <% end %>
   <div class="mt-2">
     <%= render(Caption.new(input: @input)) %>
   </div>

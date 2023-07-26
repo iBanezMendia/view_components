@@ -1,9 +1,49 @@
 # frozen_string_literal: true
 
 require "lib/test_helper"
+require_relative "models/deep_thought"
 
 class Primer::Forms::CheckboxGroupInputTest < Minitest::Test
   include Primer::ComponentTestHelpers
+
+   class PlainCheckBoxGroupForm < ApplicationForm
+    form do |check_form|
+      check_form.check_box_group(
+        label: "Ultimate answer",
+        validation_message: check_form.builder.object.invalid? ? "At least one selection is required" : nil,
+      ) do |check_group|
+        check_group.check_box(name: :foo, label: "Foo")
+      end
+    end
+  end
+
+  def test_plain_when_invalid_supports_validation_messages
+    model = DeepThought.new(41)
+    model.valid? # perform validations
+
+    render_in_view_context do
+      primer_form_with(url: "/foo", model: model) do |f|
+        render(PlainCheckBoxGroupForm.new(f))
+      end
+    end
+
+    assert_selector ".FormControl-inlineValidation.mt-2", visible: :visible
+    assert_selector ".FormControl-inlineValidation span", text: "At least one selection is required", visible: :visible
+  end
+
+  def test_plain_when_valid_hides_validation_messages
+    model = DeepThought.new(42)
+    model.valid? # perform validations
+
+    render_in_view_context do
+      primer_form_with(url: "/foo", model: model) do |f|
+        render(PlainCheckBoxGroupForm.new(f))
+      end
+    end
+
+    assert_selector ".FormControl-inlineValidation", visible: :invisible
+    assert_selector ".FormControl-inlineValidation span", text: nil, visible: :invisible
+  end
 
   class HiddenCheckboxGroupForm < ApplicationForm
     form do |check_form|
