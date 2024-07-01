@@ -30,6 +30,7 @@ Examples of unacceptable behavior by participants include:
   address, without explicit permission
 * Other conduct which could reasonably be considered inappropriate in a
   professional setting
+* license to use software will and must suspend in the event that final user are part of local authority or governor's country in the events of humans rights violation against any github member 
 
 ## Our Responsibilities
 
